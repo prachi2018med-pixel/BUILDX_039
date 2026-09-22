@@ -144,13 +144,20 @@
 
     .notification-dot {
       position: absolute;
-      top: 9px;
-      right: 10px;
-      width: 8px;
-      height: 8px;
-      background: #10b981;
+      top: 8px;
+      right: 9px;
+      width: 9px;
+      height: 9px;
+      background: #ef4444;
       border-radius: 50%;
       border: 2px solid white;
+      animation: pulseAlert 1.5s infinite;
+    }
+
+    @keyframes pulseAlert {
+      0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+      100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
     }
 
     /* Hero Banner Area */
@@ -346,6 +353,97 @@
     .card-arrow-btn.teal { background: #d1fae5; color: #047857; }
     .card-arrow-btn.purple { background: #f3e8ff; color: #6b21a8; }
     .card-arrow-btn.cyan { background: #cffafe; color: #0e7490; }
+
+    /* --- SAHAY SMART ALERT PANEL STYLING (Matching User Image) --- */
+    .sahay-alert-panel {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      border: 1px solid #e2e8f0;
+      max-width: 380px;
+      width: 100%;
+    }
+
+    .alert-panel-header {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--navy-dark);
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f1f5f9;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .alert-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .alert-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px;
+      border-radius: 12px;
+      transition: background 0.2s;
+    }
+    .alert-item:hover { background: #f8fafc; }
+
+    .alert-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 2px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+    
+    .alert-dot.red { background: linear-gradient(135deg, #ef4444, #dc2626); }
+    .alert-dot.orange { background: linear-gradient(135deg, #f97316, #ea580c); }
+    .alert-dot.blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+    .alert-dot.green { background: linear-gradient(135deg, #10b981, #059669); }
+
+    .alert-title {
+      font-family: var(--font-heading);
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--navy-dark);
+      line-height: 1.25;
+    }
+
+    .alert-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      line-height: 1.35;
+    }
+
+    /* Push Notification Popup Banner */
+    .smart-push-notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+      max-width: 380px;
+      width: 90%;
+      background: #ffffff;
+      border-left: 5px solid #ef4444;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+      animation: bounceIn 0.35s ease-out;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: translate(-50%, -50px); opacity: 0; }
+      100% { transform: translate(-50%, 0); opacity: 1; }
+    }
 
     /* Sticky Bottom Mobile Nav */
     .bottom-nav {
@@ -572,8 +670,7 @@
         station: 'MIHAN, Nagpur, Maharashtra (1.2 km)',
         phone: '+91 712 2812000',
         freeBeds: '18 ICU Beds Free | 24x7 Trauma Center',
-        status: 'AVAILABLE',
-        isNagpur: true
+        status: 'AVAILABLE'
       },
       {
         id: 'ngp-2',
@@ -582,8 +679,7 @@
         station: 'Near Kasturchand Park, Station Road, Nagpur (2.8 km)',
         phone: '+91 712 6789000',
         freeBeds: '8 ICU Beds Free | ALS Ambulances Active',
-        status: 'AVAILABLE',
-        isNagpur: true
+        status: 'AVAILABLE'
       },
       {
         id: 'ngp-3',
@@ -592,8 +688,7 @@
         station: 'Mankapur, Koradi Road, Nagpur (4.1 km)',
         phone: '+91 712 7120000',
         freeBeds: '5 ICU Beds Free | Trauma Emergency',
-        status: 'AVAILABLE',
-        isNagpur: true
+        status: 'AVAILABLE'
       },
       {
         id: 'ngp-4',
@@ -602,8 +697,7 @@
         station: 'Shankar Nagar Square, Nagpur (5.3 km)',
         phone: '+91 712 6624444',
         freeBeds: '0 ICU Beds Available (100% Full)',
-        status: 'BUSY',
-        isNagpur: true
+        status: 'BUSY'
       },
       {
         id: 'ngp-5',
@@ -612,27 +706,38 @@
         station: 'Medical Square, Hanuman Nagar, Nagpur (3.5 km)',
         phone: '+91 712 2744437',
         freeBeds: '12 ICU Beds Free | Regional Blood Reserve',
-        status: 'AVAILABLE',
-        isNagpur: true
+        status: 'AVAILABLE'
       }
     ];
 
     const AMBULANCES_DATA = [
-      { id: 'amb-ngp-1', title: 'AIIMS Nagpur ICU / ALS Ambulance', station: 'AIIMS MIHAN, Nagpur', eta: '6 mins', status: 'AVAILABLE', isNagpur: true },
-      { id: 'amb-ngp-2', title: 'Kingsway Emergency Cardiac Ambulance', station: 'Kingsway Hospital, Nagpur', eta: '9 mins', status: 'AVAILABLE', isNagpur: true },
-      { id: 'amb-ngp-3', title: 'Wockhardt Critical Care Ambulance', station: 'Shankar Nagar, Nagpur', eta: '14 mins', status: 'BUSY', isNagpur: true }
+      { id: 'amb-ngp-1', title: 'AIIMS Nagpur ICU / ALS Ambulance', station: 'AIIMS MIHAN, Nagpur', eta: '6 mins', status: 'AVAILABLE' },
+      { id: 'amb-ngp-2', title: 'Kingsway Emergency Cardiac Ambulance', station: 'Kingsway Hospital, Nagpur', eta: '9 mins', status: 'AVAILABLE' },
+      { id: 'amb-ngp-3', title: 'Wockhardt Critical Care Ambulance', station: 'Shankar Nagar, Nagpur', eta: '14 mins', status: 'BUSY' }
     ];
 
     const BLOOD_DATA = [
-      { id: 'b-ngp-1', title: 'Nagpur Central Blood Bank (GMCH)', station: 'Medical Square, Nagpur', avail: '85 Units Free (All Groups)', status: 'AVAILABLE', isNagpur: true },
-      { id: 'b-ngp-2', title: 'LifeLine Component Center Nagpur', station: 'Ramdaspeth, Nagpur', avail: '40 Units (O+, A+, B+)', status: 'AVAILABLE', isNagpur: true },
-      { id: 'b-ngp-3', title: 'Nagpur Regional O- Blood Reserve', station: 'Civil Lines, Nagpur (0 Units)', avail: 'Critical Deficit (0 Units)', status: 'BUSY', isNagpur: true }
+      { id: 'b-ngp-1', title: 'Nagpur Central Blood Bank (GMCH)', station: 'Medical Square, Nagpur', avail: '85 Units Free (All Groups)', status: 'AVAILABLE' },
+      { id: 'b-ngp-2', title: 'LifeLine Component Center Nagpur', station: 'Ramdaspeth, Nagpur', avail: '40 Units (O+, A+, B+)', status: 'AVAILABLE' },
+      { id: 'b-ngp-3', title: 'Nagpur Regional O- Blood Reserve', station: 'Civil Lines, Nagpur (0 Units)', avail: 'Critical Deficit (0 Units)', status: 'BUSY' }
     ];
 
     const PATIENT_DATA = [
-      { id: 'p-ngp-1', title: 'Dr. P. K. Deshpande (Neuro Trauma Specialist)', station: 'AIIMS Nagpur', status: 'AVAILABLE', isNagpur: true },
-      { id: 'p-ngp-2', title: 'Dr. Rajesh Swarnakar (Pulmonologist & Critical Care)', station: 'Kingsway Hospital, Nagpur', status: 'AVAILABLE', isNagpur: true },
-      { id: 'p-ngp-3', title: 'Dr. Sameer Patel (Interventional Cardiologist)', station: 'Wockhardt Hospital, Nagpur', status: 'BUSY', isNagpur: true }
+      { id: 'p-ngp-1', title: 'Dr. P. K. Deshpande (Neuro Trauma Specialist)', station: 'AIIMS Nagpur', status: 'AVAILABLE' },
+      { id: 'p-ngp-2', title: 'Dr. Rajesh Swarnakar (Pulmonologist & Critical Care)', station: 'Kingsway Hospital, Nagpur', status: 'AVAILABLE' },
+      { id: 'p-ngp-3', title: 'Dr. Sameer Patel (Interventional Cardiologist)', station: 'Wockhardt Hospital, Nagpur', status: 'BUSY' }
+    ];
+
+    // --- SMART ALERTS DATA (Matching Image) ---
+    const INITIAL_SMART_ALERTS = [
+      { id: 'a-1', dot: 'red', title: 'Critical Resource Lost', sub: 'Wockhardt Hospital ICU beds 100% full (0 beds free). Smart Plan B activated.' },
+      { id: 'a-2', dot: 'orange', title: 'Confirmation Delay', sub: 'Admission desk response pending > 3 mins at City Center.' },
+      { id: 'a-3', dot: 'red', title: 'Blood Resource Lost', sub: 'O- Blood Stock depleted at Regional Hospital Bank.' },
+      { id: 'a-4', dot: 'orange', title: 'Resource Delay', sub: 'Ambulance #103 delayed due to traffic bottleneck.' },
+      { id: 'a-5', dot: 'blue', title: 'Faster Option Found', sub: 'AIIMS Nagpur has 18 ICU Beds & faster 6 min ambulance ETA.' },
+      { id: 'a-6', dot: 'green', title: 'Rescue Plan Synchronized', sub: 'Automated Plan B Reroute synchronized with Trauma Team.' },
+      { id: 'a-7', dot: 'orange', title: 'Route Delay Detected', sub: 'Heavy traffic reported along MIHAN highway route.' },
+      { id: 'a-8', dot: 'red', title: 'Escalation Required', sub: 'SOS Emergency command escalated to 108 Command Dispatch.' }
     ];
 
     // --- Context ---
@@ -641,7 +746,9 @@
     const EmergencyProvider = ({ children }) => {
       const [activeTab, setActiveTab] = useState('home');
       const [activeModuleView, setActiveModuleView] = useState(null);
-      const [selectedFilter, setSelectedFilter] = useState('ALL'); // 'ALL' or 'NAGPUR'
+      const [selectedFilter, setSelectedFilter] = useState('ALL');
+      const [alertsOpen, setAlertsOpen] = useState(false);
+      const [pushAlert, setPushAlert] = useState(null);
       const [sosOpen, setSosOpen] = useState(false);
       const [planBActive, setPlanBActive] = useState(false);
       const [planBData, setPlanBData] = useState({ reason: '', missing: '', facility: '' });
@@ -674,9 +781,26 @@
         }
       };
 
+      // Trigger Smart Bed Alert Notification
+      const triggerSmartBedAlert = (hospitalName) => {
+        const alertObj = {
+          title: '🚨 SAHAY SMART ALERT: Critical Resource Lost!',
+          sub: `${hospitalName} ICU Beds are 100% FULL (0 beds free). Smart Failover Plan B activated: Rerouting to AIIMS Nagpur (18 Beds Free)!`
+        };
+        setPushAlert(alertObj);
+
+        // Attempt Browser Push Notification if supported
+        if ("Notification" in window && Notification.permission === "granted") {
+          new Notification(alertObj.title, { body: alertObj.sub, icon: 'https://cdn-icons-png.flaticon.com/512/2966/2966486.png' });
+        } else if ("Notification" in window && Notification.permission !== "denied") {
+          Notification.requestPermission();
+        }
+      };
+
       const triggerPlanB = (reason, missing, facility) => {
         setPlanBData({ reason, missing, facility });
         setPlanBActive(true);
+        triggerSmartBedAlert(facility);
       };
 
       const showToast = (msg) => {
@@ -688,6 +812,7 @@
         <EmergencyContext.Provider value={{
           activeTab, setActiveTab, activeModuleView, openModuleView, closeModuleView,
           selectedFilter, setSelectedFilter, detectGpsLocation,
+          alertsOpen, setAlertsOpen, pushAlert, setPushAlert, triggerSmartBedAlert,
           sosOpen, setSosOpen, planBActive, setPlanBActive, planBData, triggerPlanB,
           toastMsg, showToast
         }}>
@@ -743,6 +868,7 @@
       const {
         activeTab, setActiveTab, activeModuleView, openModuleView, closeModuleView,
         selectedFilter, setSelectedFilter, detectGpsLocation,
+        alertsOpen, setAlertsOpen, pushAlert, setPushAlert, triggerSmartBedAlert,
         sosOpen, setSosOpen, planBActive, setPlanBActive, planBData, triggerPlanB,
         toastMsg, showToast
       } = useEmergency();
@@ -767,7 +893,7 @@
                 <PinGpsIcon />
               </button>
 
-              <button className="icon-btn" onClick={() => showToast('Notifications up to date!')}>
+              <button className="icon-btn" onClick={() => setAlertsOpen(!alertsOpen)} title="Sahay Smart Alerts Panel">
                 <span className="notification-dot"></span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
               </button>
@@ -828,7 +954,7 @@
               </div>
             </div>
 
-            {/* Card 2: Nearby Hospitals (Nagpur & Near Me) */}
+            {/* Card 2: Nearby Hospitals */}
             <div className="grid-card teal" onClick={() => openModuleView('hospital')}>
               <div className="card-icon-box teal">
                 <HospitalIcon />
@@ -925,7 +1051,7 @@
                             </button>
                           ) : (
                             <button className="btn-action-planb" onClick={() => triggerPlanB(`${h.title} ICU Beds 100% Full`, 'ICU Bed', h.title)}>
-                              <span>⚠️</span> Trigger Plan B Reroute to AIIMS Nagpur
+                              <span>⚠️</span> Trigger Plan B Reroute & Send Smart Alert
                             </button>
                           )}
                         </div>
@@ -1054,6 +1180,52 @@
                   </div>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* SAHAY SMART ALERT PANEL MODAL (Exact match to User Image) */}
+          {alertsOpen && (
+            <div className="modal-overlay" onClick={() => setAlertsOpen(false)}>
+              <div className="sahay-alert-panel" onClick={e => e.stopPropagation()}>
+                <div className="alert-panel-header">
+                  <span>Sahay Alert</span>
+                  <button onClick={() => setAlertsOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.1rem', cursor: 'pointer', color: 'var(--text-muted)' }}>✕</button>
+                </div>
+
+                <div className="alert-list">
+                  {INITIAL_SMART_ALERTS.map(alt => (
+                    <div key={alt.id} className="alert-item">
+                      <div className={`alert-dot ${alt.dot}`}></div>
+                      <div>
+                        <div className="alert-title">{alt.title}</div>
+                        <div className="alert-sub">{alt.sub}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => {
+                    triggerSmartBedAlert('Wockhardt Hospital Nagpur');
+                    setAlertsOpen(false);
+                  }}
+                  style={{ width: '100%', marginTop: '16px', padding: '10px', borderRadius: '12px', background: 'var(--navy-dark)', color: 'white', fontWeight: 700, border: 'none', cursor: 'pointer', fontSize: '0.85rem' }}
+                >
+                  ⚡ Test Live Smart Bed Push Notification
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* SMART PUSH NOTIFICATION POPUP BANNER */}
+          {pushAlert && (
+            <div className="smart-push-notification">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#dc2626' }}>SAHAY SMART ALERT SYSTEM</span>
+                <button onClick={() => setPushAlert(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: 700, color: '#64748b' }}>✕</button>
+              </div>
+              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.98rem', fontWeight: 800, color: '#0a2540' }}>{pushAlert.title}</h4>
+              <p style={{ fontSize: '0.8rem', color: '#475569', marginTop: '2px', lineHeight: 1.35 }}>{pushAlert.sub}</p>
             </div>
           )}
 
