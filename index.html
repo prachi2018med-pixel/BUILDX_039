@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAHAY | Human Connection & Healthcare Emergency</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  
+  <!-- React & ReactDOM CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  
+  <!-- Babel Standalone -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    :root {
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+
+      --bg-outer: #0b1a2d;
+      --bg-app: #ffffff;
+      --bg-card-blue: #f0f7ff;
+      --bg-card-teal: #eefbf7;
+      --bg-card-purple: #f6f2fd;
+      --bg-card-cyan: #edf9fc;
+
+      --navy-dark: #0a2540;
+      --teal-primary: #0d9488;
+      --teal-dark: #0f766e;
+      --teal-light: #14b8a6;
+      
+      --sos-red: #ef4444;
+      --sos-gradient: linear-gradient(135deg, #0d9488 0%, #10b981 100%);
+      
+      --text-main: #0f294a;
+      --text-muted: #64748b;
+
+      --radius-app: 36px;
+      --radius-card: 22px;
+      --radius-pill: 9999px;
+      
+      --shadow-app: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+      --shadow-card: 0 8px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-outer);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 10px;
+    }
+
+    /* Device Container Frame */
+    .app-frame {
+      max-width: 440px;
+      width: 100%;
+      background: var(--bg-app);
+      border-radius: var(--radius-app);
+      box-shadow: var(--shadow-app);
+      padding: 24px 20px 76px 20px;
+      position: relative;
+      overflow: hidden;
+      border: 6px solid #1e293b;
+      min-height: 780px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .logo-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #0284c7 0%, #10b981 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 6px 14px rgba(13, 148, 136, 0.3);
+    }
+
+    .brand-title {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--navy-dark);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .brand-sub {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--teal-primary);
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--navy-dark);
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s;
+    }
+    .icon-btn:hover { background: #e2e8f0; }
+
+    .notification-dot {
+      position: absolute;
+      top: 9px;
+      right: 10px;
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+
+    /* Hero Banner Area */
+    .hero-banner {
+      position: relative;
+      border-radius: var(--radius-card);
+      padding: 12px 4px 10px 4px;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .hero-top-italic {
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+
+    .hero-title .dark-text { color: var(--navy-dark); display: block; }
+    .hero-title .teal-text { color: var(--teal-primary); display: block; }
+
+    .hero-description {
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: var(--text-muted);
+      max-width: 220px;
+      font-weight: 500;
+    }
+
+    .hero-bg-img {
+      position: absolute;
+      top: 10px;
+      right: -20px;
+      width: 220px;
+      height: 170px;
+      background-image: url('./ambulance_hero.jpg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 20px;
+      mask-image: radial-gradient(circle at 70% 50%, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%);
+      -webkit-mask-image: radial-gradient(circle at 70% 50%, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .pulse-graphic {
+      position: absolute;
+      top: 18px;
+      right: 10px;
+      color: var(--teal-primary);
+      opacity: 0.8;
+    }
+
+    /* Emergency SOS Large Banner Card */
+    .sos-banner-card {
+      background: var(--sos-gradient);
+      border-radius: var(--radius-card);
+      padding: 18px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 12px 25px -6px rgba(13, 148, 136, 0.4);
+      margin-bottom: 20px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .sos-banner-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .sos-circle-btn {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      border: 3px solid rgba(255, 255, 255, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 0 18px rgba(239, 68, 68, 0.6);
+      flex-shrink: 0;
+    }
+
+    .sos-circle-btn .sos-text {
+      font-family: var(--font-heading);
+      font-size: 0.85rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .sos-content { flex: 1; }
+    .sos-content h3 { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 800; margin-bottom: 2px; }
+    .sos-content p { font-size: 0.78rem; opacity: 0.9; font-weight: 500; }
+
+    .arrow-circle-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: white;
+      color: var(--teal-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* 2x2 Feature Grid Cards */
+    .feature-grid-2x2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .grid-card {
+      border-radius: var(--radius-card);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 154px;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s ease;
+      border: 1px solid rgba(0, 0, 0, 0.03);
+    }
+    .grid-card:hover { transform: translateY(-3px); }
+
+    .grid-card.blue { background: var(--bg-card-blue); }
+    .grid-card.teal { background: var(--bg-card-teal); }
+    .grid-card.purple { background: var(--bg-card-purple); }
+    .grid-card.cyan { background: var(--bg-card-cyan); }
+
+    .card-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    .card-icon-box.blue { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+    .card-icon-box.teal { background: linear-gradient(135deg, #10b981 0%, #047857 100%); }
+    .card-icon-box.purple { background: linear-gradient(135deg, #a855f7 0%, #6b21a8 100%); }
+    .card-icon-box.cyan { background: linear-gradient(135deg, #06b6d4 0%, #0e7490 100%); }
+
+    .card-main-title {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--navy-dark);
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+
+    .card-main-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+      font-weight: 500;
+    }
+
+    .card-arrow-btn {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-arrow-btn.blue { background: #dbeafe; color: #1d4ed8; }
+    .card-arrow-btn.teal { background: #d1fae5; color: #047857; }
+    .card-arrow-btn.purple { background: #f3e8ff; color: #6b21a8; }
+    .card-arrow-btn.cyan { background: #cffafe; color: #0e7490; }
+
+    /* Sticky Bottom Mobile Nav */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      background: white;
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      z-index: 20;
+      padding: 0 10px;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-decoration: none;
+      position: relative;
+    }
+
+    .nav-item.active {
+      color: var(--teal-primary);
+      font-weight: 700;
+    }
+
+    .nav-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      width: 24px;
+      height: 3px;
+      background: var(--teal-primary);
+      border-radius: 2px;
+    }
+
+    /* Modal Overlay View for Dedicated Modules */
+    .module-view-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 50;
+      background: white;
+      padding: 24px 20px 80px 20px;
+      overflow-y: auto;
+      animation: slideIn 0.25s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .view-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #f1f5f9;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--navy-dark);
+      cursor: pointer;
+    }
+
+    .module-card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .module-card {
+      background: #f8fafc;
+      border-radius: 18px;
+      padding: 18px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .card-row-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--navy-dark);
+    }
+
+    .status-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+    }
+    .status-badge.available { background: #d1fae5; color: #047857; }
+    .status-badge.busy { background: #fee2e2; color: #b91c1c; }
+
+    .card-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .btn-action-primary {
+      width: 100%;
+      background: var(--teal-primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 12px;
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-action-planb {
+      width: 100%;
+      background: #7e22ce;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 12px;
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, createContext, useContext } = React;
+
+    // --- Mock Data ---
+    const AMBULANCES_DATA = [
+      { id: 'amb-1', title: 'ICU / ALS Ambulance', station: 'Apex Super Specialty Hospital', eta: '7 mins', status: 'AVAILABLE' },
+      { id: 'amb-2', title: 'Basic Life Support (BLS)', station: 'Apex Super Specialty Hospital', eta: '12 mins', status: 'AVAILABLE' },
+      { id: 'amb-3', title: 'ICU / ALS Ambulance', station: 'City Trauma & General Hospital', eta: '15 mins', status: 'BUSY' }
+    ];
+
+    const HOSPITALS_DATA = [
+      { id: 'hosp-1', title: 'Apex Super Specialty Hospital', station: 'Sector 4, Ring Road', freeBeds: '3 ICU Beds Free', status: 'AVAILABLE' },
+      { id: 'hosp-2', title: 'City Trauma & General Hospital', station: 'Central Avenue', freeBeds: '0 ICU Beds Free (100% Full)', status: 'BUSY' }
+    ];
+
+    const BLOOD_DATA = [
+      { id: 'b-1', title: 'O+ Blood Group', station: 'Red Cross Central Blood Bank', avail: '65 Units Free', status: 'AVAILABLE' },
+      { id: 'b-2', title: 'O- Rare Blood Group', station: 'Primary Hospital (0 Units)', avail: 'Critical Deficit (0 Units)', status: 'BUSY' }
+    ];
+
+    const PATIENT_DATA = [
+      { id: 'p-1', title: 'Dr. Vikramaditya Sen (Neurosurgery)', station: 'Apex Super Specialty Hospital', status: 'AVAILABLE' },
+      { id: 'p-2', title: 'Dr. Ananya Deshmukh (Cardiology)', station: 'Apex Super Specialty Hospital', status: 'BUSY' }
+    ];
+
+    // --- Context ---
+    const EmergencyContext = createContext();
+
+    const EmergencyProvider = ({ children }) => {
+      const [activeTab, setActiveTab] = useState('home');
+      const [activeModuleView, setActiveModuleView] = useState(null); // 'ambulance', 'hospital', 'patient', 'blood'
+      const [sosOpen, setSosOpen] = useState(false);
+      const [planBActive, setPlanBActive] = useState(false);
+      const [planBData, setPlanBData] = useState({ reason: '', missing: '', facility: '' });
+      const [toastMsg, setToastMsg] = useState(null);
+
+      const openModuleView = (modKey) => {
+        setActiveModuleView(modKey);
+      };
+
+      const closeModuleView = () => {
+        setActiveModuleView(null);
+      };
+
+      const triggerPlanB = (reason, missing, facility) => {
+        setPlanBData({ reason, missing, facility });
+        setPlanBActive(true);
+      };
+
+      const showToast = (msg) => {
+        setToastMsg(msg);
+        setTimeout(() => setToastMsg(null), 4000);
+      };
+
+      return (
+        <EmergencyContext.Provider value={{
+          activeTab, setActiveTab, activeModuleView, openModuleView, closeModuleView,
+          sosOpen, setSosOpen, planBActive, setPlanBActive, planBData, triggerPlanB,
+          toastMsg, showToast
+        }}>
+          {children}
+        </EmergencyContext.Provider>
+      );
+    };
+
+    const useEmergency = () => useContext(EmergencyContext);
+
+    // SVG Icons
+    const HandshakeIcon = () => (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m11 17 2 2a1 1 0 0 0 1.4 0l6.6-6.6a2 2 0 0 0 0-2.8l-2.8-2.8a2 2 0 0 0-2.8 0L14 9.4"/>
+        <path d="m13 15-2 2a1 1 0 0 1-1.4 0l-6.6-6.6a2 2 0 0 1 0-2.8l2.8-2.8a2 2 0 0 1 2.8 0L10 6.6"/>
+      </svg>
+    );
+
+    const SirenIcon = () => (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2v2"/><path d="M12 6a7 7 0 0 0-7 7v3h14v-3a7 7 0 0 0-7-7z"/><path d="M5 19h14v2H5z"/>
+      </svg>
+    );
+
+    const ArrowRightIcon = () => (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+      </svg>
+    );
+
+    const AmbulanceIcon = () => (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="6" width="15" height="11" rx="2"/><path d="M16 8h4l3 3v6h-7V8z"/><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/></svg>
+    );
+
+    const HospitalIcon = () => (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 21h18"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/><path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/><path d="M10 9h4"/><path d="M12 7v4"/></svg>
+    );
+
+    const UserIcon = () => (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    );
+
+    const ShieldIcon = () => (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+    );
+
+    // --- Main App Component ---
+    const App = () => {
+      const {
+        activeTab, setActiveTab, activeModuleView, openModuleView, closeModuleView,
+        sosOpen, setSosOpen, planBActive, setPlanBActive, planBData, triggerPlanB,
+        toastMsg, showToast
+      } = useEmergency();
+
+      return (
+        <div className="app-frame">
+
+          {/* Header */}
+          <header className="header">
+            <div className="logo-container" onClick={() => { closeModuleView(); setActiveTab('home'); }}>
+              <div className="logo-icon-box">
+                <HandshakeIcon />
+              </div>
+              <div>
+                <h1 className="brand-title">SAHAY</h1>
+                <div className="brand-sub">Human Connection</div>
+              </div>
+            </div>
+
+            <div className="header-actions">
+              <button className="icon-btn" onClick={() => showToast('Notifications up to date!')}>
+                <span className="notification-dot"></span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              </button>
+
+              <button className="icon-btn" onClick={() => showToast('Sahay Quick Menu')}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+              </button>
+            </div>
+          </header>
+
+          {/* Clean Main Home Screen */}
+          <section className="hero-banner">
+            <div className="hero-top-italic">Because every second matters...</div>
+            
+            <h2 className="hero-title">
+              <span className="dark-text">Right Care.</span>
+              <span className="teal-text">Faster Lives.</span>
+            </h2>
+
+            <p className="hero-description">
+              An emergency connection platform connecting citizens, ambulances, hospitals and critical resources in real time.
+            </p>
+
+            <div className="hero-bg-img"></div>
+
+            <div className="pulse-graphic">
+              <svg width="40" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+          </section>
+
+          {/* Large Emergency SOS Banner Button */}
+          <div className="sos-banner-card" onClick={() => setSosOpen(true)}>
+            <div className="sos-circle-btn">
+              <SirenIcon />
+              <span className="sos-text">SOS</span>
+            </div>
+
+            <div className="sos-content">
+              <h3>Emergency SOS</h3>
+              <p>Need help? Request an ambulance now.</p>
+            </div>
+
+            <div className="arrow-circle-btn">
+              <ArrowRightIcon />
+            </div>
+          </div>
+
+          {/* 2x2 Feature Cards Grid */}
+          <section className="feature-grid-2x2">
+            
+            {/* Card 1: Live Tracking */}
+            <div className="grid-card blue" onClick={() => openModuleView('ambulance')}>
+              <div className="card-icon-box blue">
+                <AmbulanceIcon />
+              </div>
+              <div>
+                <h4 className="card-main-title">Live Tracking</h4>
+                <p className="card-main-sub">Track your ambulance in real time.</p>
+              </div>
+              <div className="card-arrow-btn blue">
+                <ArrowRightIcon />
+              </div>
+            </div>
+
+            {/* Card 2: Nearby Hospitals */}
+            <div className="grid-card teal" onClick={() => openModuleView('hospital')}>
+              <div className="card-icon-box teal">
+                <HospitalIcon />
+              </div>
+              <div>
+                <h4 className="card-main-title">Nearby Hospitals</h4>
+                <p className="card-main-sub">Find the best hospital with available beds, doctors & facilities.</p>
+              </div>
+              <div className="card-arrow-btn teal">
+                <ArrowRightIcon />
+              </div>
+            </div>
+
+            {/* Card 3: Patient Resources */}
+            <div className="grid-card purple" onClick={() => openModuleView('patient')}>
+              <div className="card-icon-box purple">
+                <UserIcon />
+              </div>
+              <div>
+                <h4 className="card-main-title">Patient Resources</h4>
+                <p className="card-main-sub">Access your medical profile, contacts and more.</p>
+              </div>
+              <div className="card-arrow-btn purple">
+                <ArrowRightIcon />
+              </div>
+            </div>
+
+            {/* Card 4: Blood Resource Network */}
+            <div className="grid-card cyan" onClick={() => openModuleView('blood')}>
+              <div className="card-icon-box cyan">
+                <ShieldIcon />
+              </div>
+              <div>
+                <h4 className="card-main-title">Blood Resource Network</h4>
+                <p className="card-main-sub">Help save lives through blood donation.</p>
+              </div>
+              <div className="card-arrow-btn cyan">
+                <ArrowRightIcon />
+              </div>
+            </div>
+
+          </section>
+
+          {/* DEDICATED FULL MODULE OVERLAY VIEW (Opened on Card Click) */}
+          {activeModuleView && (
+            <div className="module-view-overlay">
+              <div className="view-header">
+                <button className="back-btn" onClick={closeModuleView}>
+                  ← Back to Home
+                </button>
+              </div>
+
+              {activeModuleView === 'ambulance' && (
+                <div>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 800, marginBottom: '14px', color: 'var(--navy-dark)' }}>
+                    🚑 Live Ambulance Tracker & Dispatch
+                  </h3>
+
+                  <div className="module-card-list">
+                    {AMBULANCES_DATA.map(amb => {
+                      const isAvailable = amb.status === 'AVAILABLE';
+
+                      return (
+                        <div key={amb.id} className="module-card">
+                          <div className="card-row-top">
+                            <span className="card-title">{amb.title}</span>
+                            <span className={`status-badge ${isAvailable ? 'available' : 'busy'}`}>
+                              {amb.status}
+                            </span>
+                          </div>
+
+                          <div className="card-subtitle">
+                            Station: {amb.station} | ETA: <strong>{amb.eta}</strong>
+                          </div>
+
+                          {isAvailable ? (
+                            <button className="btn-action-primary" onClick={() => showToast(`🚑 ${amb.title} Dispatched! ETA: ${amb.eta}`)}>
+                              Dispatch Ambulance Now
+                            </button>
+                          ) : (
+                            <button className="btn-action-planb" onClick={() => triggerPlanB(`Ambulance #${amb.id} is BUSY`, amb.title, amb.station)}>
+                              <span>⚠️</span> Trigger Plan B Failover
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {activeModuleView === 'hospital' && (
+                <div>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 800, marginBottom: '14px', color: 'var(--navy-dark)' }}>
+                    🏥 Nearby Hospitals & Bed Availability
+                  </h3>
+
+                  <div className="module-card-list">
+                    {HOSPITALS_DATA.map(h => {
+                      const isAvailable = h.status === 'AVAILABLE';
+
+                      return (
+                        <div key={h.id} className="module-card">
+                          <div className="card-row-top">
+                            <span className="card-title">{h.title}</span>
+                            <span className={`status-badge ${isAvailable ? 'available' : 'busy'}`}>
+                              {h.status}
+                            </span>
+                          </div>
+
+                          <div className="card-subtitle">
+                            Station: {h.station} | Status: <strong>{h.freeBeds}</strong>
+                          </div>
+
+                          {isAvailable ? (
+                            <button className="btn-action-primary" onClick={() => showToast(`🏥 ICU Bed Reserved at ${h.title}!`)}>
+                              Reserve ICU Bed Now
+                            </button>
+                          ) : (
+                            <button className="btn-action-planb" onClick={() => triggerPlanB(`${h.title} ICU Beds 100% Full`, 'ICU Bed', h.title)}>
+                              <span>⚠️</span> Trigger Plan B Failover Reroute
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {activeModuleView === 'blood' && (
+                <div>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 800, marginBottom: '14px', color: 'var(--navy-dark)' }}>
+                    🩸 Blood Resource Network & Donation
+                  </h3>
+
+                  <div className="module-card-list">
+                    {BLOOD_DATA.map(b => {
+                      const isAvailable = b.status === 'AVAILABLE';
+
+                      return (
+                        <div key={b.id} className="module-card">
+                          <div className="card-row-top">
+                            <span className="card-title">{b.title}</span>
+                            <span className={`status-badge ${isAvailable ? 'available' : 'busy'}`}>
+                              {b.status === 'AVAILABLE' ? 'IN STOCK' : 'OUT OF STOCK'}
+                            </span>
+                          </div>
+
+                          <div className="card-subtitle">
+                            Facility: {b.station} | Available: <strong>{b.avail}</strong>
+                          </div>
+
+                          {isAvailable ? (
+                            <button className="btn-action-primary" onClick={() => showToast(`🩸 Contact Request sent to ${b.station}!`)}>
+                              Contact Blood Bank Direct
+                            </button>
+                          ) : (
+                            <button className="btn-action-planb" onClick={() => triggerPlanB(`0 units of ${b.title} available`, b.title, b.station)}>
+                              <span>⚠️</span> Trigger Plan B Regional Blood Connect
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {activeModuleView === 'patient' && (
+                <div>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 800, marginBottom: '14px', color: 'var(--navy-dark)' }}>
+                    👤 Patient Resources & Specialized Doctors
+                  </h3>
+
+                  <div className="module-card-list">
+                    {PATIENT_DATA.map(p => {
+                      const isAvailable = p.status === 'AVAILABLE';
+
+                      return (
+                        <div key={p.id} className="module-card">
+                          <div className="card-row-top">
+                            <span className="card-title">{p.title}</span>
+                            <span className={`status-badge ${isAvailable ? 'available' : 'busy'}`}>
+                              {p.status}
+                            </span>
+                          </div>
+
+                          <div className="card-subtitle">
+                            Hospital: {p.station}
+                          </div>
+
+                          {isAvailable ? (
+                            <button className="btn-action-primary" onClick={() => showToast(`🩺 Consultation booked with ${p.title}!`)}>
+                              Consult Doctor Immediately
+                            </button>
+                          ) : (
+                            <button className="btn-action-planb" onClick={() => triggerPlanB(`${p.title} is IN SURGERY`, 'Doctor', p.station)}>
+                              <span>⚠️</span> Trigger Plan B Failover Reroute
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Fixed Bottom Nav Bar */}
+          <nav className="bottom-nav">
+            <div className={`nav-item ${activeTab === 'home' && !activeModuleView ? 'active' : ''}`} onClick={() => { closeModuleView(); setActiveTab('home'); }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              <span>Home</span>
+            </div>
+
+            <div className={`nav-item ${activeTab === 'about' ? 'active' : ''}`} onClick={() => { closeModuleView(); setActiveTab('about'); showToast('Sahay Platform - Human Connection'); }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span>About</span>
+            </div>
+
+            <div className={`nav-item ${activeTab === 'impact' ? 'active' : ''}`} onClick={() => { closeModuleView(); setActiveTab('impact'); showToast('Sahay Impact: 10,000+ Rescues'); }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><circle cx="12" cy="12" r="10"/><path d="m10 15 5-3-5-3v6z"/></svg>
+              <span>Impact</span>
+            </div>
+
+            <div className={`nav-item ${activeTab === 'contact' ? 'active' : ''}`} onClick={() => { closeModuleView(); setActiveTab('contact'); showToast('24x7 Helpline: 108 / 102'); }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>Contact</span>
+            </div>
+          </nav>
+
+          {/* SOS Dispatch Modal */}
+          {sosOpen && (
+            <div className="modal-overlay" onClick={() => setSosOpen(false)}>
+              <div style={{ background: 'white', padding: '24px', borderRadius: '24px', maxWidth: '380px', width: '100%' }} onClick={e => e.stopPropagation()}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', color: 'var(--sos-red)', marginBottom: '6px' }}>🚨 1-Tap Emergency SOS Dispatch</h3>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '14px' }}>Priority command to 108 Emergency Ambulance Command Center</p>
+                <form onSubmit={e => { e.preventDefault(); showToast('🚨 SOS ALERT DISPATCHED TO 108 COMMAND CENTER!'); setSosOpen(false); }} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <input type="text" required placeholder="Patient Name" style={{ padding: '10px 14px', borderRadius: '10px', border: '1px solid #cbd5e1' }} />
+                  <input type="text" required placeholder="Pickup Location Landmark" style={{ padding: '10px 14px', borderRadius: '10px', border: '1px solid #cbd5e1' }} />
+                  <button type="submit" style={{ padding: '12px', borderRadius: '12px', background: 'var(--sos-red)', color: 'white', fontWeight: 700, border: 'none', cursor: 'pointer', marginTop: '4px' }}>CONFIRM SOS NOW</button>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* Plan B Modal */}
+          {planBActive && (
+            <div className="modal-overlay" onClick={() => setPlanBActive(false)}>
+              <div style={{ background: 'white', padding: '24px', borderRadius: '24px', maxWidth: '380px', width: '100%', border: '2px solid #7e22ce' }} onClick={e => e.stopPropagation()}>
+                <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#7e22ce', background: '#f3e8ff', padding: '3px 8px', borderRadius: '8px' }}>AUTOMATED FAILOVER PROTOCOL</span>
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', color: '#7e22ce', marginTop: '6px' }}>⚠️ PLAN B EMERGENCY ACTIVATED</h3>
+                <p style={{ fontSize: '0.85rem', color: 'var(--sos-red)', fontWeight: 600, marginTop: '4px' }}>{planBData.reason}</p>
+
+                <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '12px', margin: '14px 0', border: '1px solid #e2e8f0' }}>
+                  <div style={{ fontWeight: 800, fontSize: '0.9rem' }}>Apex Regional Emergency Backup</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Distance: 2.8 km | Direct Helpline: +91 98765 43210</div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button onClick={() => { showToast('🚨 Plan B Emergency SOS Alert Broadcasted!'); setPlanBActive(false); }} style={{ flex: 1, padding: '10px', borderRadius: '10px', background: '#7e22ce', color: 'white', fontWeight: 700, border: 'none', cursor: 'pointer' }}>
+                    Broadcast Plan B SOS
+                  </button>
+                  <button onClick={() => setPlanBActive(false)} style={{ padding: '10px 16px', borderRadius: '10px', background: '#f1f5f9', border: 'none', cursor: 'pointer' }}>Close</button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Toast Notification */}
+          {toastMsg && (
+            <div style={{ position: 'fixed', bottom: '80px', left: '50%', transform: 'translateX(-50%)', zIndex: 120, background: 'var(--navy-dark)', color: 'white', padding: '10px 18px', borderRadius: '12px', boxShadow: 'var(--shadow-app)', fontWeight: 600, fontSize: '0.82rem', whiteSpace: 'nowrap' }}>
+              {toastMsg}
+            </div>
+          )}
+
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(
+      <EmergencyProvider>
+        <App />
+      </EmergencyProvider>
+    );
+  </script>
+</body>
+</html>
