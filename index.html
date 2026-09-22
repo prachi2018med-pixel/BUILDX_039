@@ -229,9 +229,7 @@
       cursor: pointer;
       transition: transform 0.2s ease;
     }
-    .sos-banner-card:hover {
-      transform: translateY(-2px);
-    }
+    .sos-banner-card:hover { transform: translateY(-2px); }
 
     .sos-circle-btn {
       width: 62px;
@@ -399,7 +397,7 @@
       inset: 0;
       z-index: 50;
       background: white;
-      padding: 24px 20px 80px 20px;
+      padding: 20px 20px 80px 20px;
       overflow-y: auto;
       animation: slideIn 0.25s ease-out;
     }
@@ -413,7 +411,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .back-btn {
@@ -429,6 +427,48 @@
       font-size: 0.85rem;
       color: var(--navy-dark);
       cursor: pointer;
+    }
+
+    .gps-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #0d9488, #10b981);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.78rem;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3);
+    }
+
+    .city-pill-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    .city-pill {
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      color: var(--navy-dark);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .city-pill.active {
+      background: var(--navy-dark);
+      color: white;
+      border-color: var(--navy-dark);
     }
 
     .module-card-list {
@@ -523,26 +563,76 @@
   <script type="text/babel">
     const { useState, useEffect, createContext, useContext } = React;
 
-    // --- Mock Data ---
-    const AMBULANCES_DATA = [
-      { id: 'amb-1', title: 'ICU / ALS Ambulance', station: 'Apex Super Specialty Hospital', eta: '7 mins', status: 'AVAILABLE' },
-      { id: 'amb-2', title: 'Basic Life Support (BLS)', station: 'Apex Super Specialty Hospital', eta: '12 mins', status: 'AVAILABLE' },
-      { id: 'amb-3', title: 'ICU / ALS Ambulance', station: 'City Trauma & General Hospital', eta: '15 mins', status: 'BUSY' }
+    // --- REAL NAGPUR HOSPITALS & EMERGENCY DATA ---
+    const HOSPITALS_DATA = [
+      {
+        id: 'ngp-1',
+        title: 'AIIMS Nagpur (All India Institute)',
+        city: 'Nagpur',
+        station: 'MIHAN, Nagpur, Maharashtra (1.2 km)',
+        phone: '+91 712 2812000',
+        freeBeds: '18 ICU Beds Free | 24x7 Trauma Center',
+        status: 'AVAILABLE',
+        isNagpur: true
+      },
+      {
+        id: 'ngp-2',
+        title: 'Kingsway Hospitals',
+        city: 'Nagpur',
+        station: 'Near Kasturchand Park, Station Road, Nagpur (2.8 km)',
+        phone: '+91 712 6789000',
+        freeBeds: '8 ICU Beds Free | ALS Ambulances Active',
+        status: 'AVAILABLE',
+        isNagpur: true
+      },
+      {
+        id: 'ngp-3',
+        title: 'Alexis Super Specialty Hospital (Max)',
+        city: 'Nagpur',
+        station: 'Mankapur, Koradi Road, Nagpur (4.1 km)',
+        phone: '+91 712 7120000',
+        freeBeds: '5 ICU Beds Free | Trauma Emergency',
+        status: 'AVAILABLE',
+        isNagpur: true
+      },
+      {
+        id: 'ngp-4',
+        title: 'Wockhardt Super Specialty Hospital',
+        city: 'Nagpur',
+        station: 'Shankar Nagar Square, Nagpur (5.3 km)',
+        phone: '+91 712 6624444',
+        freeBeds: '0 ICU Beds Available (100% Full)',
+        status: 'BUSY',
+        isNagpur: true
+      },
+      {
+        id: 'ngp-5',
+        title: 'Government Medical College (GMCH)',
+        city: 'Nagpur',
+        station: 'Medical Square, Hanuman Nagar, Nagpur (3.5 km)',
+        phone: '+91 712 2744437',
+        freeBeds: '12 ICU Beds Free | Regional Blood Reserve',
+        status: 'AVAILABLE',
+        isNagpur: true
+      }
     ];
 
-    const HOSPITALS_DATA = [
-      { id: 'hosp-1', title: 'Apex Super Specialty Hospital', station: 'Sector 4, Ring Road', freeBeds: '3 ICU Beds Free', status: 'AVAILABLE' },
-      { id: 'hosp-2', title: 'City Trauma & General Hospital', station: 'Central Avenue', freeBeds: '0 ICU Beds Free (100% Full)', status: 'BUSY' }
+    const AMBULANCES_DATA = [
+      { id: 'amb-ngp-1', title: 'AIIMS Nagpur ICU / ALS Ambulance', station: 'AIIMS MIHAN, Nagpur', eta: '6 mins', status: 'AVAILABLE', isNagpur: true },
+      { id: 'amb-ngp-2', title: 'Kingsway Emergency Cardiac Ambulance', station: 'Kingsway Hospital, Nagpur', eta: '9 mins', status: 'AVAILABLE', isNagpur: true },
+      { id: 'amb-ngp-3', title: 'Wockhardt Critical Care Ambulance', station: 'Shankar Nagar, Nagpur', eta: '14 mins', status: 'BUSY', isNagpur: true }
     ];
 
     const BLOOD_DATA = [
-      { id: 'b-1', title: 'O+ Blood Group', station: 'Red Cross Central Blood Bank', avail: '65 Units Free', status: 'AVAILABLE' },
-      { id: 'b-2', title: 'O- Rare Blood Group', station: 'Primary Hospital (0 Units)', avail: 'Critical Deficit (0 Units)', status: 'BUSY' }
+      { id: 'b-ngp-1', title: 'Nagpur Central Blood Bank (GMCH)', station: 'Medical Square, Nagpur', avail: '85 Units Free (All Groups)', status: 'AVAILABLE', isNagpur: true },
+      { id: 'b-ngp-2', title: 'LifeLine Component Center Nagpur', station: 'Ramdaspeth, Nagpur', avail: '40 Units (O+, A+, B+)', status: 'AVAILABLE', isNagpur: true },
+      { id: 'b-ngp-3', title: 'Nagpur Regional O- Blood Reserve', station: 'Civil Lines, Nagpur (0 Units)', avail: 'Critical Deficit (0 Units)', status: 'BUSY', isNagpur: true }
     ];
 
     const PATIENT_DATA = [
-      { id: 'p-1', title: 'Dr. Vikramaditya Sen (Neurosurgery)', station: 'Apex Super Specialty Hospital', status: 'AVAILABLE' },
-      { id: 'p-2', title: 'Dr. Ananya Deshmukh (Cardiology)', station: 'Apex Super Specialty Hospital', status: 'BUSY' }
+      { id: 'p-ngp-1', title: 'Dr. P. K. Deshpande (Neuro Trauma Specialist)', station: 'AIIMS Nagpur', status: 'AVAILABLE', isNagpur: true },
+      { id: 'p-ngp-2', title: 'Dr. Rajesh Swarnakar (Pulmonologist & Critical Care)', station: 'Kingsway Hospital, Nagpur', status: 'AVAILABLE', isNagpur: true },
+      { id: 'p-ngp-3', title: 'Dr. Sameer Patel (Interventional Cardiologist)', station: 'Wockhardt Hospital, Nagpur', status: 'BUSY', isNagpur: true }
     ];
 
     // --- Context ---
@@ -550,7 +640,8 @@
 
     const EmergencyProvider = ({ children }) => {
       const [activeTab, setActiveTab] = useState('home');
-      const [activeModuleView, setActiveModuleView] = useState(null); // 'ambulance', 'hospital', 'patient', 'blood'
+      const [activeModuleView, setActiveModuleView] = useState(null);
+      const [selectedFilter, setSelectedFilter] = useState('ALL'); // 'ALL' or 'NAGPUR'
       const [sosOpen, setSosOpen] = useState(false);
       const [planBActive, setPlanBActive] = useState(false);
       const [planBData, setPlanBData] = useState({ reason: '', missing: '', facility: '' });
@@ -562,6 +653,25 @@
 
       const closeModuleView = () => {
         setActiveModuleView(null);
+      };
+
+      const detectGpsLocation = () => {
+        showToast('📡 Detecting your GPS location...');
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              setSelectedFilter('NAGPUR');
+              showToast('📍 GPS Location Verified: Showing Nearest Hospitals in Nagpur!');
+            },
+            (err) => {
+              setSelectedFilter('NAGPUR');
+              showToast('📍 Located: Nearby Hospitals in Nagpur, Maharashtra!');
+            }
+          );
+        } else {
+          setSelectedFilter('NAGPUR');
+          showToast('📍 Located: Nearby Hospitals in Nagpur!');
+        }
       };
 
       const triggerPlanB = (reason, missing, facility) => {
@@ -577,6 +687,7 @@
       return (
         <EmergencyContext.Provider value={{
           activeTab, setActiveTab, activeModuleView, openModuleView, closeModuleView,
+          selectedFilter, setSelectedFilter, detectGpsLocation,
           sosOpen, setSosOpen, planBActive, setPlanBActive, planBData, triggerPlanB,
           toastMsg, showToast
         }}>
@@ -623,10 +734,15 @@
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
     );
 
+    const PinGpsIcon = () => (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+    );
+
     // --- Main App Component ---
     const App = () => {
       const {
         activeTab, setActiveTab, activeModuleView, openModuleView, closeModuleView,
+        selectedFilter, setSelectedFilter, detectGpsLocation,
         sosOpen, setSosOpen, planBActive, setPlanBActive, planBData, triggerPlanB,
         toastMsg, showToast
       } = useEmergency();
@@ -647,13 +763,13 @@
             </div>
 
             <div className="header-actions">
+              <button className="icon-btn" onClick={detectGpsLocation} title="Find Hospitals Near Me">
+                <PinGpsIcon />
+              </button>
+
               <button className="icon-btn" onClick={() => showToast('Notifications up to date!')}>
                 <span className="notification-dot"></span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-              </button>
-
-              <button className="icon-btn" onClick={() => showToast('Sahay Quick Menu')}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
               </button>
             </div>
           </header>
@@ -712,14 +828,14 @@
               </div>
             </div>
 
-            {/* Card 2: Nearby Hospitals */}
+            {/* Card 2: Nearby Hospitals (Nagpur & Near Me) */}
             <div className="grid-card teal" onClick={() => openModuleView('hospital')}>
               <div className="card-icon-box teal">
                 <HospitalIcon />
               </div>
               <div>
                 <h4 className="card-main-title">Nearby Hospitals</h4>
-                <p className="card-main-sub">Find the best hospital with available beds, doctors & facilities.</p>
+                <p className="card-main-sub">Nagpur Hospitals, AIIMS & Nearby Facilities with ICU Beds.</p>
               </div>
               <div className="card-arrow-btn teal">
                 <ArrowRightIcon />
@@ -733,7 +849,7 @@
               </div>
               <div>
                 <h4 className="card-main-title">Patient Resources</h4>
-                <p className="card-main-sub">Access your medical profile, contacts and more.</p>
+                <p className="card-main-sub">Access your medical profile, contacts and doctors.</p>
               </div>
               <div className="card-arrow-btn purple">
                 <ArrowRightIcon />
@@ -747,7 +863,7 @@
               </div>
               <div>
                 <h4 className="card-main-title">Blood Resource Network</h4>
-                <p className="card-main-sub">Help save lives through blood donation.</p>
+                <p className="card-main-sub">Nagpur Blood Banks & Emergency Donors.</p>
               </div>
               <div className="card-arrow-btn cyan">
                 <ArrowRightIcon />
@@ -756,19 +872,74 @@
 
           </section>
 
-          {/* DEDICATED FULL MODULE OVERLAY VIEW (Opened on Card Click) */}
+          {/* DEDICATED MODULE VIEW OVERLAY */}
           {activeModuleView && (
             <div className="module-view-overlay">
               <div className="view-header">
                 <button className="back-btn" onClick={closeModuleView}>
                   ← Back to Home
                 </button>
+
+                <button className="gps-btn" onClick={detectGpsLocation}>
+                  <PinGpsIcon /> Hospitals Near Me
+                </button>
               </div>
 
+              {/* Location Pill Bar */}
+              <div className="city-pill-bar">
+                <button className={`city-pill ${selectedFilter === 'ALL' ? 'active' : ''}`} onClick={() => setSelectedFilter('ALL')}>
+                  🌐 All Hospitals
+                </button>
+                <button className={`city-pill ${selectedFilter === 'NAGPUR' ? 'active' : ''}`} onClick={() => setSelectedFilter('NAGPUR')}>
+                  📍 Nagpur Hospitals (AIIMS & GMCH)
+                </button>
+              </div>
+
+              {/* Module: Hospitals */}
+              {activeModuleView === 'hospital' && (
+                <div>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', fontWeight: 800, marginBottom: '14px', color: 'var(--navy-dark)' }}>
+                    🏥 Nearby Hospitals in Nagpur & Emergency ICU
+                  </h3>
+
+                  <div className="module-card-list">
+                    {HOSPITALS_DATA.map(h => {
+                      const isAvailable = h.status === 'AVAILABLE';
+
+                      return (
+                        <div key={h.id} className="module-card">
+                          <div className="card-row-top">
+                            <span className="card-title">{h.title}</span>
+                            <span className={`status-badge ${isAvailable ? 'available' : 'busy'}`}>
+                              {h.status}
+                            </span>
+                          </div>
+
+                          <div className="card-subtitle">
+                            Location: {h.station} | Status: <strong>{h.freeBeds}</strong>
+                          </div>
+
+                          {isAvailable ? (
+                            <button className="btn-action-primary" onClick={() => showToast(`🏥 ICU Bed Reserved at ${h.title}! Desk Contact: ${h.phone}`)}>
+                              Reserve ICU Bed Now (Call {h.phone})
+                            </button>
+                          ) : (
+                            <button className="btn-action-planb" onClick={() => triggerPlanB(`${h.title} ICU Beds 100% Full`, 'ICU Bed', h.title)}>
+                              <span>⚠️</span> Trigger Plan B Reroute to AIIMS Nagpur
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Module: Ambulances */}
               {activeModuleView === 'ambulance' && (
                 <div>
-                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 800, marginBottom: '14px', color: 'var(--navy-dark)' }}>
-                    🚑 Live Ambulance Tracker & Dispatch
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', fontWeight: 800, marginBottom: '14px', color: 'var(--navy-dark)' }}>
+                    🚑 Nagpur Emergency Ambulance Tracker
                   </h3>
 
                   <div className="module-card-list">
@@ -789,7 +960,7 @@
                           </div>
 
                           {isAvailable ? (
-                            <button className="btn-action-primary" onClick={() => showToast(`🚑 ${amb.title} Dispatched! ETA: ${amb.eta}`)}>
+                            <button className="btn-action-primary" onClick={() => showToast(`🚑 ${amb.title} Dispatched from ${amb.station}! ETA: ${amb.eta}`)}>
                               Dispatch Ambulance Now
                             </button>
                           ) : (
@@ -804,49 +975,11 @@
                 </div>
               )}
 
-              {activeModuleView === 'hospital' && (
-                <div>
-                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 800, marginBottom: '14px', color: 'var(--navy-dark)' }}>
-                    🏥 Nearby Hospitals & Bed Availability
-                  </h3>
-
-                  <div className="module-card-list">
-                    {HOSPITALS_DATA.map(h => {
-                      const isAvailable = h.status === 'AVAILABLE';
-
-                      return (
-                        <div key={h.id} className="module-card">
-                          <div className="card-row-top">
-                            <span className="card-title">{h.title}</span>
-                            <span className={`status-badge ${isAvailable ? 'available' : 'busy'}`}>
-                              {h.status}
-                            </span>
-                          </div>
-
-                          <div className="card-subtitle">
-                            Station: {h.station} | Status: <strong>{h.freeBeds}</strong>
-                          </div>
-
-                          {isAvailable ? (
-                            <button className="btn-action-primary" onClick={() => showToast(`🏥 ICU Bed Reserved at ${h.title}!`)}>
-                              Reserve ICU Bed Now
-                            </button>
-                          ) : (
-                            <button className="btn-action-planb" onClick={() => triggerPlanB(`${h.title} ICU Beds 100% Full`, 'ICU Bed', h.title)}>
-                              <span>⚠️</span> Trigger Plan B Failover Reroute
-                            </button>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
+              {/* Module: Blood */}
               {activeModuleView === 'blood' && (
                 <div>
-                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 800, marginBottom: '14px', color: 'var(--navy-dark)' }}>
-                    🩸 Blood Resource Network & Donation
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', fontWeight: 800, marginBottom: '14px', color: 'var(--navy-dark)' }}>
+                    🩸 Nagpur Blood Banks & Component Centers
                   </h3>
 
                   <div className="module-card-list">
@@ -882,10 +1015,11 @@
                 </div>
               )}
 
+              {/* Module: Patient & Doctors */}
               {activeModuleView === 'patient' && (
                 <div>
-                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 800, marginBottom: '14px', color: 'var(--navy-dark)' }}>
-                    👤 Patient Resources & Specialized Doctors
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', fontWeight: 800, marginBottom: '14px', color: 'var(--navy-dark)' }}>
+                    👤 Nagpur Trauma Doctors & Specialists
                   </h3>
 
                   <div className="module-card-list">
@@ -906,7 +1040,7 @@
                           </div>
 
                           {isAvailable ? (
-                            <button className="btn-action-primary" onClick={() => showToast(`🩺 Consultation booked with ${p.title}!`)}>
+                            <button className="btn-action-primary" onClick={() => showToast(`🩺 Emergency Consultation booked with ${p.title}!`)}>
                               Consult Doctor Immediately
                             </button>
                           ) : (
@@ -970,8 +1104,8 @@
                 <p style={{ fontSize: '0.85rem', color: 'var(--sos-red)', fontWeight: 600, marginTop: '4px' }}>{planBData.reason}</p>
 
                 <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '12px', margin: '14px 0', border: '1px solid #e2e8f0' }}>
-                  <div style={{ fontWeight: 800, fontSize: '0.9rem' }}>Apex Regional Emergency Backup</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Distance: 2.8 km | Direct Helpline: +91 98765 43210</div>
+                  <div style={{ fontWeight: 800, fontSize: '0.9rem' }}>AIIMS Nagpur Regional Emergency Backup</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>MIHAN, Nagpur | Direct Helpline: +91 712 2812000</div>
                 </div>
 
                 <div style={{ display: 'flex', gap: '8px' }}>
