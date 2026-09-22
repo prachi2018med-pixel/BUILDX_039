@@ -1085,20 +1085,6 @@
         planBFacility: 'AIIMS Nagpur'
       },
       {
-        id: 'a-9',
-        dot: 'green',
-        type: 'safe',
-        category: 'Rescue Sync',
-        icon: '🟢',
-        situation: 'Hospital accepts everything & Green Corridor clear',
-        title: 'Rescue Plan Synchronized',
-        sub: 'Automated Plan B Reroute synchronized with Trauma Team. All traffic signals green.',
-        action: 'Continue current route with zero stoppage.',
-        planB: 'Green Corridor Active on MIHAN Expressway (Avg transit speed 65 km/h).',
-        actionBtn: 'View Green Corridor Status',
-        planBFacility: 'Trauma Unit Ready'
-      },
-      {
         id: 'a-10',
         dot: 'red',
         type: 'danger',
@@ -1333,6 +1319,13 @@
         smartAlertsList, alertFilter, setAlertFilter, simulateAlert, filteredAlerts
       } = useEmergency();
 
+      const [sosForm, setSosForm] = useState({
+        name: '',
+        location: '',
+        bloodGroup: 'O+',
+        condition: 'Serious'
+      });
+
       return (
         <div className="app-frame">
 
@@ -1412,7 +1405,6 @@
             <div className="guidance-pill-row">
               <span className="g-pill danger">🔴 {smartAlertsList.filter(a => a.type === 'danger').length} Danger</span>
               <span className="g-pill warning">🟠 {smartAlertsList.filter(a => a.type === 'warning').length} Warnings & Risks</span>
-              <span className="g-pill safe">🟢 {smartAlertsList.filter(a => a.type === 'safe').length} Safe Sync</span>
               <span className="g-pill info">🔵 {smartAlertsList.filter(a => a.type === 'info').length} Faster Options</span>
             </div>
           </div>
@@ -1686,9 +1678,6 @@
                   <button className={`alert-filter-pill ${alertFilter === 'warning' ? 'active' : ''}`} onClick={() => setAlertFilter('warning')}>
                     🟠 Warnings & Risks ({smartAlertsList.filter(a => a.type === 'warning').length})
                   </button>
-                  <button className={`alert-filter-pill ${alertFilter === 'safe' ? 'active' : ''}`} onClick={() => setAlertFilter('safe')}>
-                    🟢 Safe Sync ({smartAlertsList.filter(a => a.type === 'safe').length})
-                  </button>
                   <button className={`alert-filter-pill ${alertFilter === 'info' ? 'active' : ''}`} onClick={() => setAlertFilter('info')}>
                     🔵 Options ({smartAlertsList.filter(a => a.type === 'info').length})
                   </button>
@@ -1791,13 +1780,137 @@
           {/* SOS Dispatch Modal */}
           {sosOpen && (
             <div className="modal-overlay" onClick={() => setSosOpen(false)}>
-              <div style={{ background: 'white', padding: '24px', borderRadius: '24px', maxWidth: '380px', width: '100%' }} onClick={e => e.stopPropagation()}>
-                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', color: 'var(--sos-red)', marginBottom: '6px' }}>🚨 1-Tap Emergency SOS Dispatch</h3>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '14px' }}>Priority command to 108 Emergency Ambulance Command Center</p>
-                <form onSubmit={e => { e.preventDefault(); showToast('🚨 SOS ALERT DISPATCHED TO 108 COMMAND CENTER!'); setSosOpen(false); }} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <input type="text" required placeholder="Patient Name" style={{ padding: '10px 14px', borderRadius: '10px', border: '1px solid #cbd5e1' }} />
-                  <input type="text" required placeholder="Pickup Location Landmark" style={{ padding: '10px 14px', borderRadius: '10px', border: '1px solid #cbd5e1' }} />
-                  <button type="submit" style={{ padding: '12px', borderRadius: '12px', background: 'var(--sos-red)', color: 'white', fontWeight: 700, border: 'none', cursor: 'pointer', marginTop: '4px' }}>CONFIRM SOS NOW</button>
+              <div style={{ background: 'white', padding: '22px 24px', borderRadius: '24px', maxWidth: '400px', width: '100%', boxShadow: '0 25px 50px rgba(0,0,0,0.3)', border: '1px solid #e2e8f0' }} onClick={e => e.stopPropagation()}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.2rem', color: 'var(--sos-red)', fontWeight: 800, margin: 0 }}>🚨 1-Tap Emergency SOS Dispatch</h3>
+                  <button onClick={() => setSosOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: 'var(--text-muted)' }}>✕</button>
+                </div>
+                <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '14px' }}>Priority command to 108 Emergency Ambulance Command Center</p>
+                
+                <form onSubmit={e => {
+                  e.preventDefault();
+                  const locText = sosForm.location || 'MIHAN, Nagpur (GPS Verified)';
+                  const nameText = sosForm.name || 'Emergency Patient';
+                  showToast(`🚨 SOS DISPATCHED! Patient: ${nameText} | Loc: ${locText} | Blood: ${sosForm.bloodGroup} | Condition: ${sosForm.condition.toUpperCase()}`);
+                  setSosOpen(false);
+                }} style={{ display: 'flex', flexDirection: 'column', gap: '11px' }}>
+                  
+                  {/* 1. Patient Name */}
+                  <div>
+                    <label style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--navy-dark)', display: 'block', marginBottom: '4px' }}>👤 Patient Name</label>
+                    <input
+                      type="text"
+                      required
+                      value={sosForm.name}
+                      onChange={e => setSosForm({ ...sosForm, name: e.target.value })}
+                      placeholder="Enter Patient Full Name"
+                      style={{ width: '100%', padding: '9px 12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.84rem' }}
+                    />
+                  </div>
+
+                  {/* 2. Pickup Location */}
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                      <label style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--navy-dark)' }}>📍 Pickup Location / Landmark</label>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSosForm(prev => ({ ...prev, location: 'MIHAN Expressway, Nagpur (GPS Verified)' }));
+                          showToast('📍 GPS Location auto-filled!');
+                        }}
+                        style={{ background: 'none', border: 'none', fontSize: '0.7rem', fontWeight: 700, color: 'var(--teal-primary)', cursor: 'pointer' }}
+                      >
+                        📍 Auto-Detect GPS
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      required
+                      value={sosForm.location}
+                      onChange={e => setSosForm({ ...sosForm, location: e.target.value })}
+                      placeholder="Enter Pickup Location / Landmark"
+                      style={{ width: '100%', padding: '9px 12px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.84rem' }}
+                    />
+                  </div>
+
+                  {/* 3. Blood Group & Condition Selectors */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div>
+                      <label style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--navy-dark)', display: 'block', marginBottom: '4px' }}>🩸 Blood Group</label>
+                      <select
+                        value={sosForm.bloodGroup}
+                        onChange={e => setSosForm({ ...sosForm, bloodGroup: e.target.value })}
+                        style={{ width: '100%', padding: '9px 8px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.82rem', background: 'white', fontWeight: 700 }}
+                      >
+                        <option value="O+">O positive (O+)</option>
+                        <option value="O-">O negative (O-)</option>
+                        <option value="A+">A positive (A+)</option>
+                        <option value="A-">A negative (A-)</option>
+                        <option value="B+">B positive (B+)</option>
+                        <option value="B-">B negative (B-)</option>
+                        <option value="AB+">AB positive (AB+)</option>
+                        <option value="AB-">AB negative (AB-)</option>
+                        <option value="Unknown">Not Known</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--navy-dark)', display: 'block', marginBottom: '4px' }}>⚠️ Condition</label>
+                      <select
+                        value={sosForm.condition}
+                        onChange={e => setSosForm({ ...sosForm, condition: e.target.value })}
+                        style={{ width: '100%', padding: '9px 8px', borderRadius: '10px', border: '1px solid #cbd5e1', fontSize: '0.82rem', background: 'white', fontWeight: 700 }}
+                      >
+                        <option value="Serious">🔴 Serious / Critical</option>
+                        <option value="Moderate">🟠 Moderate</option>
+                        <option value="Mild">🟡 Mild / Stable</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Quick Condition Pills */}
+                  <div style={{ display: 'flex', gap: '6px' }}>
+                    <button
+                      type="button"
+                      onClick={() => setSosForm({ ...sosForm, condition: 'Serious' })}
+                      style={{
+                        flex: 1, padding: '6px', borderRadius: '8px', fontSize: '0.72rem', fontWeight: 800, cursor: 'pointer',
+                        border: sosForm.condition === 'Serious' ? '2px solid #ef4444' : '1px solid #e2e8f0',
+                        background: sosForm.condition === 'Serious' ? '#fee2e2' : '#f8fafc',
+                        color: sosForm.condition === 'Serious' ? '#991b1b' : 'var(--text-muted)'
+                      }}
+                    >
+                      🔴 Serious
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSosForm({ ...sosForm, condition: 'Moderate' })}
+                      style={{
+                        flex: 1, padding: '6px', borderRadius: '8px', fontSize: '0.72rem', fontWeight: 800, cursor: 'pointer',
+                        border: sosForm.condition === 'Moderate' ? '2px solid #f97316' : '1px solid #e2e8f0',
+                        background: sosForm.condition === 'Moderate' ? '#ffedd5' : '#f8fafc',
+                        color: sosForm.condition === 'Moderate' ? '#9a3412' : 'var(--text-muted)'
+                      }}
+                    >
+                      🟠 Moderate
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSosForm({ ...sosForm, condition: 'Mild' })}
+                      style={{
+                        flex: 1, padding: '6px', borderRadius: '8px', fontSize: '0.72rem', fontWeight: 800, cursor: 'pointer',
+                        border: sosForm.condition === 'Mild' ? '2px solid #eab308' : '1px solid #e2e8f0',
+                        background: sosForm.condition === 'Mild' ? '#fef9c3' : '#f8fafc',
+                        color: sosForm.condition === 'Mild' ? '#854d0e' : 'var(--text-muted)'
+                      }}
+                    >
+                      🟡 Mild
+                    </button>
+                  </div>
+
+                  <button type="submit" style={{ padding: '11px', borderRadius: '12px', background: 'var(--sos-red)', color: 'white', fontWeight: 800, border: 'none', cursor: 'pointer', marginTop: '4px', fontSize: '0.88rem', boxShadow: '0 4px 12px rgba(239,68,68,0.3)' }}>
+                    CONFIRM SOS DISPATCH NOW
+                  </button>
                 </form>
               </div>
             </div>
