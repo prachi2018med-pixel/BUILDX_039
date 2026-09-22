@@ -354,74 +354,316 @@
     .card-arrow-btn.purple { background: #f3e8ff; color: #6b21a8; }
     .card-arrow-btn.cyan { background: #cffafe; color: #0e7490; }
 
-    /* --- SAHAY SMART ALERT PANEL STYLING (Matching User Image) --- */
+    /* --- SAHAY SMART ALERT & GUIDANCE SYSTEM STYLING --- */
+    .smart-guidance-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border-radius: var(--radius-card);
+      padding: 16px 18px;
+      color: white;
+      margin-bottom: 20px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
+      transition: transform 0.2s ease;
+    }
+    .smart-guidance-banner:hover { transform: translateY(-2px); }
+
+    .guidance-banner-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .guidance-banner-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+
+    .live-pulse-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 10px #ef4444;
+      animation: pulseAlert 1.5s infinite;
+    }
+
+    .alerts-count-badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 3px 9px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .guidance-banner-sub {
+      font-size: 0.78rem;
+      opacity: 0.85;
+      line-height: 1.35;
+      margin-bottom: 12px;
+    }
+
+    .guidance-pill-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .g-pill {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .g-pill.danger { color: #fca5a5; background: rgba(239, 68, 68, 0.2); }
+    .g-pill.warning { color: #fed7aa; background: rgba(249, 115, 22, 0.2); }
+    .g-pill.safe { color: #86efac; background: rgba(16, 185, 129, 0.2); }
+    .g-pill.info { color: #93c5fd; background: rgba(59, 130, 246, 0.2); }
+
     .sahay-alert-panel {
       background: #ffffff;
       border-radius: 24px;
       padding: 20px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
       border: 1px solid #e2e8f0;
-      max-width: 380px;
+      max-width: 420px;
       width: 100%;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
 
     .alert-panel-header {
       font-family: var(--font-heading);
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       font-weight: 800;
       color: var(--navy-dark);
       padding-bottom: 12px;
       border-bottom: 1px solid #f1f5f9;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-shrink: 0;
     }
+
+    .alert-filter-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+      flex-shrink: 0;
+    }
+
+    .alert-filter-pill {
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      color: var(--navy-dark);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .alert-filter-pill.active {
+      background: var(--navy-dark);
+      color: white;
+      border-color: var(--navy-dark);
+    }
+
+    .simulator-bar {
+      background: #f8fafc;
+      padding: 8px 10px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      border: 1px solid #e2e8f0;
+      flex-shrink: 0;
+    }
+
+    .simulator-title {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .simulator-buttons {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+    }
+
+    .sim-btn {
+      padding: 4px 9px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      color: var(--navy-dark);
+    }
+    .sim-btn:hover { background: #e2e8f0; }
 
     .alert-list {
       display: flex;
       flex-direction: column;
       gap: 12px;
+      overflow-y: auto;
+      padding-right: 4px;
     }
 
-    .alert-item {
+    .smart-alert-card {
+      border-radius: 16px;
+      padding: 14px 16px;
+      border: 1.5px solid #e2e8f0;
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background: #ffffff;
+    }
+    .smart-alert-card:hover { transform: translateY(-1px); }
+
+    .smart-alert-card.danger {
+      background: #fff1f2;
+      border-color: #fda4af;
+      border-left: 5px solid #ef4444;
+    }
+
+    .smart-alert-card.warning {
+      background: #fff7ed;
+      border-color: #fed7aa;
+      border-left: 5px solid #f97316;
+    }
+
+    .smart-alert-card.safe {
+      background: #f0fdf4;
+      border-color: #a7f3d0;
+      border-left: 5px solid #10b981;
+    }
+
+    .smart-alert-card.info {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      border-left: 5px solid #3b82f6;
+    }
+
+    .alert-card-header {
       display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 10px;
-      border-radius: 12px;
-      transition: background 0.2s;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
     }
-    .alert-item:hover { background: #f8fafc; }
 
-    .alert-dot {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      margin-top: 2px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    .alert-card-title-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    
-    .alert-dot.red { background: linear-gradient(135deg, #ef4444, #dc2626); }
-    .alert-dot.orange { background: linear-gradient(135deg, #f97316, #ea580c); }
-    .alert-dot.blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
-    .alert-dot.green { background: linear-gradient(135deg, #10b981, #059669); }
 
-    .alert-title {
+    .alert-icon-circle {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .alert-card-title {
       font-family: var(--font-heading);
       font-size: 0.98rem;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--navy-dark);
-      line-height: 1.25;
     }
 
-    .alert-sub {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-      line-height: 1.35;
+    .alert-badge {
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
+
+    .alert-badge.danger { background: #fee2e2; color: #991b1b; }
+    .alert-badge.warning { background: #ffedd5; color: #9a3412; }
+    .alert-badge.safe { background: #d1fae5; color: #065f46; }
+    .alert-badge.info { background: #dbeafe; color: #1e40af; }
+
+    .alert-situation-box {
+      background: rgba(255, 255, 255, 0.75);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 8px;
+      border: 1px dashed rgba(0, 0, 0, 0.12);
+    }
+
+    .alert-explanation {
+      font-size: 0.78rem;
+      color: #475569;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .alert-guidance-box {
+      background: #ffffff;
+      padding: 10px 12px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .guidance-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 0.76rem;
+      line-height: 1.35;
+      margin-bottom: 5px;
+    }
+    .guidance-row:last-child { margin-bottom: 0; }
+
+    .guidance-label {
+      font-weight: 800;
+      color: var(--navy-dark);
+      flex-shrink: 0;
+    }
+
+    .btn-alert-planb {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 0.8rem;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+    }
+    .btn-alert-planb:hover { opacity: 0.9; }
+
+    .btn-alert-planb.danger { background: #dc2626; color: white; }
+    .btn-alert-planb.warning { background: #ea580c; color: white; }
+    .btn-alert-planb.safe { background: #059669; color: white; }
+    .btn-alert-planb.info { background: #2563eb; color: white; }
 
     /* Push Notification Popup Banner */
     .smart-push-notification {
@@ -728,16 +970,148 @@
       { id: 'p-ngp-3', title: 'Dr. Sameer Patel (Interventional Cardiologist)', station: 'Wockhardt Hospital, Nagpur', status: 'BUSY' }
     ];
 
-    // --- SMART ALERTS DATA (Matching Image) ---
+    // --- SMART ALERTS & GUIDANCE DATA (Matching Image + Risks, Weather, Crowd, Emergency) ---
     const INITIAL_SMART_ALERTS = [
-      { id: 'a-1', dot: 'red', title: 'Critical Resource Lost', sub: 'Wockhardt Hospital ICU beds 100% full (0 beds free). Smart Plan B activated.' },
-      { id: 'a-2', dot: 'orange', title: 'Confirmation Delay', sub: 'Admission desk response pending > 3 mins at City Center.' },
-      { id: 'a-3', dot: 'red', title: 'Blood Resource Lost', sub: 'O- Blood Stock depleted at Regional Hospital Bank.' },
-      { id: 'a-4', dot: 'orange', title: 'Resource Delay', sub: 'Ambulance #103 delayed due to traffic bottleneck.' },
-      { id: 'a-5', dot: 'blue', title: 'Faster Option Found', sub: 'AIIMS Nagpur has 18 ICU Beds & faster 6 min ambulance ETA.' },
-      { id: 'a-6', dot: 'green', title: 'Rescue Plan Synchronized', sub: 'Automated Plan B Reroute synchronized with Trauma Team.' },
-      { id: 'a-7', dot: 'orange', title: 'Route Delay Detected', sub: 'Heavy traffic reported along MIHAN highway route.' },
-      { id: 'a-8', dot: 'red', title: 'Escalation Required', sub: 'SOS Emergency command escalated to 108 Command Dispatch.' }
+      {
+        id: 'a-1',
+        dot: 'red',
+        type: 'danger',
+        category: 'Emergency',
+        icon: '🏥',
+        situation: 'Selected hospital ICU becomes 0',
+        title: 'Critical Resource Lost',
+        sub: 'Wockhardt Hospital ICU beds 100% occupied (0 beds free). High risk of admission delay.',
+        action: 'Generate Plan B & reroute to backup ICU facility immediately.',
+        planB: 'Reroute to AIIMS Nagpur (18 ICU beds free, 6-min ALS Ambulance ETA).',
+        actionBtn: 'Activate Plan B Reroute',
+        planBFacility: 'AIIMS Nagpur'
+      },
+      {
+        id: 'a-2',
+        dot: 'orange',
+        type: 'warning',
+        category: 'Route Risk',
+        icon: '🌊',
+        situation: 'Wardha Road Flyover flooded under 45mm rainwater',
+        title: 'Severe Route Risk: Waterlogging',
+        sub: 'Flash waterlogging detected on Wardha Road Underpass & Flyover via municipal IoT sensors.',
+        action: 'Divert ambulance away from Wardha Road low-lying area.',
+        planB: 'Divert via Airport Expressway Elevated Link (Saves 11 mins & avoids flooded underpass).',
+        actionBtn: 'Divert via Airport Expressway',
+        planBFacility: 'Airport Expressway Link'
+      },
+      {
+        id: 'a-3',
+        dot: 'orange',
+        type: 'warning',
+        category: 'Crowd Level',
+        icon: '🚦',
+        situation: 'Rally crowd surge near Reshimbagh Square (>15,000 people)',
+        title: 'Crowd Level Bottleneck',
+        sub: 'Traffic speed dropped to 5 km/h around Medical Square & Reshimbagh intersection.',
+        action: 'Bypass Reshimbagh intersection to avoid 18-minute transit delay.',
+        planB: 'Reroute via Great Nag Road Bypass with Traffic Signal Override Active.',
+        actionBtn: 'Reroute via Nag Road Bypass',
+        planBFacility: 'Great Nag Road Bypass'
+      },
+      {
+        id: 'a-4',
+        dot: 'orange',
+        type: 'warning',
+        category: 'Weather Alert',
+        icon: '⛈️',
+        situation: 'Torrential downpour & thick fog near Mankapur',
+        title: 'Extreme Weather Hazard',
+        sub: 'Visibility reduced to under 20 meters. High risk of skidding at emergency speeds.',
+        action: 'Activate emergency fog beacons & reduce speed to 40 km/h.',
+        planB: 'Dispatch Nagpur Traffic Police Escort Vehicle to lead ambulance convoy.',
+        actionBtn: 'Request Police Escort',
+        planBFacility: 'Police Escort Unit #4'
+      },
+      {
+        id: 'a-5',
+        dot: 'red',
+        type: 'danger',
+        category: 'Emergency',
+        icon: '🩸',
+        situation: 'Required O- blood stock becomes unavailable',
+        title: 'Blood Resource Lost',
+        sub: 'Regional Hospital Blood Bank reports 0 units of O- Negative blood remaining.',
+        action: 'Search next regional blood bank source immediately.',
+        planB: 'Trigger Regional Blood Connect to GMCH Nagpur (85 units available in stock).',
+        actionBtn: 'Connect GMCH Blood Stock',
+        planBFacility: 'GMCH Central Blood Bank'
+      },
+      {
+        id: 'a-6',
+        dot: 'orange',
+        type: 'warning',
+        category: 'Confirmation Delay',
+        icon: '⏱️',
+        situation: 'Hospital hasn\'t accepted request (> 3 mins)',
+        title: 'Confirmation Delay',
+        sub: 'Admission desk response pending > 3 minutes at City Center Hospital.',
+        action: 'Send urgent chime to desk lead & prep backup facility.',
+        planB: 'Pre-reserve backup ICU bed at Kingsway Hospital Nagpur.',
+        actionBtn: 'Switch to Kingsway ICU',
+        planBFacility: 'Kingsway Hospital'
+      },
+      {
+        id: 'a-7',
+        dot: 'orange',
+        type: 'warning',
+        category: 'Route Delay',
+        icon: '🚑',
+        situation: 'Ambulance ETA increases significantly (+12 mins)',
+        title: 'Route Delay Detected',
+        sub: 'Heavy traffic bottleneck reported along MIHAN highway route.',
+        action: 'Recalculate transit options and update driver GPS.',
+        planB: 'Switch route to Outer Ring Road Highway Bypass (Saves 14 minutes).',
+        actionBtn: 'Apply Ring Road Route',
+        planBFacility: 'Outer Ring Road Bypass'
+      },
+      {
+        id: 'a-8',
+        dot: 'blue',
+        type: 'info',
+        category: 'Faster Option',
+        icon: '⚡',
+        situation: 'Another required resource becomes available closer',
+        title: 'Faster Option Found',
+        sub: 'AIIMS Nagpur has 18 ICU Beds & faster 6-minute ALS ambulance ETA.',
+        action: 'Show alternative faster emergency rescue plan.',
+        planB: 'Switch destination to AIIMS Nagpur (Saves 8 mins total travel time).',
+        actionBtn: 'Switch to AIIMS Nagpur',
+        planBFacility: 'AIIMS Nagpur'
+      },
+      {
+        id: 'a-9',
+        dot: 'green',
+        type: 'safe',
+        category: 'Rescue Sync',
+        icon: '🟢',
+        situation: 'Hospital accepts everything & Green Corridor clear',
+        title: 'Rescue Plan Synchronized',
+        sub: 'Automated Plan B Reroute synchronized with Trauma Team. All traffic signals green.',
+        action: 'Continue current route with zero stoppage.',
+        planB: 'Green Corridor Active on MIHAN Expressway (Avg transit speed 65 km/h).',
+        actionBtn: 'View Green Corridor Status',
+        planBFacility: 'Trauma Unit Ready'
+      },
+      {
+        id: 'a-10',
+        dot: 'red',
+        type: 'danger',
+        category: 'Escalation',
+        icon: '🚨',
+        situation: 'Plan B also fails / High regional congestion',
+        title: 'Escalation Required',
+        sub: 'Secondary backup facility reaching capacity limit. Immediate escalation required.',
+        action: 'Escalate command to 108 Regional Command Center.',
+        planB: 'Dispatch Air Ambulance / Helicopter Evacuation from Nagpur Airfield.',
+        actionBtn: 'Trigger 108 Escalation',
+        planBFacility: '108 Command Dispatch'
+      }
     ];
 
     // --- Context ---
@@ -753,6 +1127,10 @@
       const [planBActive, setPlanBActive] = useState(false);
       const [planBData, setPlanBData] = useState({ reason: '', missing: '', facility: '' });
       const [toastMsg, setToastMsg] = useState(null);
+
+      // Smart Alerts State
+      const [smartAlertsList, setSmartAlertsList] = useState(INITIAL_SMART_ALERTS);
+      const [alertFilter, setAlertFilter] = useState('ALL');
 
       const openModuleView = (modKey) => {
         setActiveModuleView(modKey);
@@ -808,13 +1186,94 @@
         setTimeout(() => setToastMsg(null), 4000);
       };
 
+      const simulateAlert = (simType) => {
+        let newAlert;
+        if (simType === 'flood') {
+          newAlert = {
+            id: 'sim-' + Date.now(),
+            dot: 'orange',
+            type: 'warning',
+            category: 'Route Risk',
+            icon: '🌊',
+            situation: 'Wardha Flyover submerged under 50mm rainwater',
+            title: 'Severe Waterlogging Hazard',
+            sub: 'Flash flooding on Wardha Road flyover detected via municipal IoT sensors.',
+            action: 'Avoid Wardha Road flyover immediately.',
+            planB: 'Divert via Airport Expressway Elevated Link (Clear, elevated road).',
+            actionBtn: 'Divert via Airport Expressway',
+            planBFacility: 'Airport Expressway Link'
+          };
+        } else if (simType === 'crowd') {
+          newAlert = {
+            id: 'sim-' + Date.now(),
+            dot: 'orange',
+            type: 'warning',
+            category: 'Crowd Level',
+            icon: '🚦',
+            situation: 'Rally crowd surge near Medical Square (>20,000 people)',
+            title: 'High Crowd Bottleneck',
+            sub: 'Traffic speed dropped to 4 km/h around Medical Square intersection.',
+            action: 'Bypass Medical Square intersection.',
+            planB: 'Reroute via Great Nag Road Bypass with Traffic Signal Override Active.',
+            actionBtn: 'Apply Nag Road Bypass',
+            planBFacility: 'Great Nag Road Bypass'
+          };
+        } else if (simType === 'icu') {
+          newAlert = {
+            id: 'sim-' + Date.now(),
+            dot: 'red',
+            type: 'danger',
+            category: 'Emergency',
+            icon: '🏥',
+            situation: 'Kingsway Hospital ICU beds dropped to 0',
+            title: 'Critical Resource Lost',
+            sub: 'Kingsway ICU beds reached 100% capacity limit (0 beds free).',
+            action: 'Generate Plan B & switch trauma patient destination.',
+            planB: 'Reroute to AIIMS Nagpur (18 ICU beds free, 6 min ETA).',
+            actionBtn: 'Activate Plan B AIIMS Reroute',
+            planBFacility: 'AIIMS Nagpur'
+          };
+        } else if (simType === 'blood') {
+          newAlert = {
+            id: 'sim-' + Date.now(),
+            dot: 'red',
+            type: 'danger',
+            category: 'Emergency',
+            icon: '🩸',
+            situation: 'O- Negative Blood Stock depleted at Regional Bank',
+            title: 'Blood Resource Lost',
+            sub: 'Zero O- units remaining in Regional Blood Reserve.',
+            action: 'Search next regional blood bank source immediately.',
+            planB: 'Connect GMCH Central Reserve (85 units available in stock).',
+            actionBtn: 'Connect GMCH Reserve',
+            planBFacility: 'GMCH Central Blood Bank'
+          };
+        } else {
+          setSmartAlertsList(INITIAL_SMART_ALERTS);
+          showToast('⚡ Real-time Smart Alerts refreshed to live state.');
+          return;
+        }
+
+        setSmartAlertsList(prev => [newAlert, ...prev]);
+        setPushAlert({
+          title: `🚨 SAHAY SMART ALERT: ${newAlert.title}`,
+          sub: `${newAlert.situation}. Action: ${newAlert.action} Plan B: ${newAlert.planB}`
+        });
+        showToast(`⚡ Real-time Alert Triggered: ${newAlert.title}`);
+      };
+
+      const filteredAlerts = alertFilter === 'ALL'
+        ? smartAlertsList
+        : smartAlertsList.filter(a => a.type === alertFilter);
+
       return (
         <EmergencyContext.Provider value={{
           activeTab, setActiveTab, activeModuleView, openModuleView, closeModuleView,
           selectedFilter, setSelectedFilter, detectGpsLocation,
           alertsOpen, setAlertsOpen, pushAlert, setPushAlert, triggerSmartBedAlert,
           sosOpen, setSosOpen, planBActive, setPlanBActive, planBData, triggerPlanB,
-          toastMsg, showToast
+          toastMsg, showToast,
+          smartAlertsList, setSmartAlertsList, alertFilter, setAlertFilter, simulateAlert, filteredAlerts
         }}>
           {children}
         </EmergencyContext.Provider>
@@ -870,7 +1329,8 @@
         selectedFilter, setSelectedFilter, detectGpsLocation,
         alertsOpen, setAlertsOpen, pushAlert, setPushAlert, triggerSmartBedAlert,
         sosOpen, setSosOpen, planBActive, setPlanBActive, planBData, triggerPlanB,
-        toastMsg, showToast
+        toastMsg, showToast,
+        smartAlertsList, alertFilter, setAlertFilter, simulateAlert, filteredAlerts
       } = useEmergency();
 
       return (
@@ -934,6 +1394,26 @@
 
             <div className="arrow-circle-btn">
               <ArrowRightIcon />
+            </div>
+          </div>
+
+          {/* DEDICATED SMART ALERTS & GUIDANCE BANNER */}
+          <div className="smart-guidance-banner" onClick={() => setAlertsOpen(true)}>
+            <div className="guidance-banner-top">
+              <div className="guidance-banner-title">
+                <span className="live-pulse-dot"></span>
+                <span>Smart Alerts & Guidance</span>
+              </div>
+              <span className="alerts-count-badge">⚡ {smartAlertsList.length} Real-Time Alerts</span>
+            </div>
+            <p className="guidance-banner-sub">
+              Active Monitoring: Route risks, delays, weather, crowd levels & automated Plan B solutions.
+            </p>
+            <div className="guidance-pill-row">
+              <span className="g-pill danger">🔴 {smartAlertsList.filter(a => a.type === 'danger').length} Danger</span>
+              <span className="g-pill warning">🟠 {smartAlertsList.filter(a => a.type === 'warning').length} Warnings & Risks</span>
+              <span className="g-pill safe">🟢 {smartAlertsList.filter(a => a.type === 'safe').length} Safe Sync</span>
+              <span className="g-pill info">🔵 {smartAlertsList.filter(a => a.type === 'info').length} Faster Options</span>
             </div>
           </div>
 
@@ -1183,36 +1663,92 @@
             </div>
           )}
 
-          {/* SAHAY SMART ALERT PANEL MODAL (Exact match to User Image) */}
+          {/* SAHAY SMART ALERTS & REAL-TIME GUIDANCE HUB MODAL */}
           {alertsOpen && (
             <div className="modal-overlay" onClick={() => setAlertsOpen(false)}>
               <div className="sahay-alert-panel" onClick={e => e.stopPropagation()}>
                 <div className="alert-panel-header">
-                  <span>Sahay Alert</span>
-                  <button onClick={() => setAlertsOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.1rem', cursor: 'pointer', color: 'var(--text-muted)' }}>✕</button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span className="live-pulse-dot"></span>
+                    <span>Sahay Smart Alerts & Guidance</span>
+                  </div>
+                  <button onClick={() => setAlertsOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: 'var(--text-muted)' }}>✕</button>
                 </div>
 
+                {/* Category Filter Pills */}
+                <div className="alert-filter-bar">
+                  <button className={`alert-filter-pill ${alertFilter === 'ALL' ? 'active' : ''}`} onClick={() => setAlertFilter('ALL')}>
+                    All Alerts ({smartAlertsList.length})
+                  </button>
+                  <button className={`alert-filter-pill ${alertFilter === 'danger' ? 'active' : ''}`} onClick={() => setAlertFilter('danger')}>
+                    🔴 Danger ({smartAlertsList.filter(a => a.type === 'danger').length})
+                  </button>
+                  <button className={`alert-filter-pill ${alertFilter === 'warning' ? 'active' : ''}`} onClick={() => setAlertFilter('warning')}>
+                    🟠 Warnings & Risks ({smartAlertsList.filter(a => a.type === 'warning').length})
+                  </button>
+                  <button className={`alert-filter-pill ${alertFilter === 'safe' ? 'active' : ''}`} onClick={() => setAlertFilter('safe')}>
+                    🟢 Safe Sync ({smartAlertsList.filter(a => a.type === 'safe').length})
+                  </button>
+                  <button className={`alert-filter-pill ${alertFilter === 'info' ? 'active' : ''}`} onClick={() => setAlertFilter('info')}>
+                    🔵 Options ({smartAlertsList.filter(a => a.type === 'info').length})
+                  </button>
+                </div>
+
+                {/* Live Alert Simulator Bar */}
+                <div className="simulator-bar">
+                  <div className="simulator-title">⚡ Live Alert Simulator</div>
+                  <div className="simulator-buttons">
+                    <button className="sim-btn" onClick={() => simulateAlert('flood')}>🌧️ Flood Risk</button>
+                    <button className="sim-btn" onClick={() => simulateAlert('crowd')}>🚦 Rally Jam</button>
+                    <button className="sim-btn" onClick={() => simulateAlert('icu')}>🏥 ICU Full (Plan B)</button>
+                    <button className="sim-btn" onClick={() => simulateAlert('blood')}>🩸 Blood Deficit</button>
+                    <button className="sim-btn" onClick={() => simulateAlert('reset')}>⚡ Reset</button>
+                  </div>
+                </div>
+
+                {/* Color-Coded Guidance Card List */}
                 <div className="alert-list">
-                  {INITIAL_SMART_ALERTS.map(alt => (
-                    <div key={alt.id} className="alert-item">
-                      <div className={`alert-dot ${alt.dot}`}></div>
-                      <div>
-                        <div className="alert-title">{alt.title}</div>
-                        <div className="alert-sub">{alt.sub}</div>
+                  {filteredAlerts.map(alt => (
+                    <div key={alt.id} className={`smart-alert-card ${alt.type}`}>
+                      <div className="alert-card-header">
+                        <div className="alert-card-title-box">
+                          <span className="alert-icon-circle">{alt.icon}</span>
+                          <span className="alert-card-title">{alt.title}</span>
+                        </div>
+                        <span className={`alert-badge ${alt.type}`}>
+                          {alt.category}
+                        </span>
                       </div>
+
+                      <div className="alert-situation-box">
+                        <strong>Situation:</strong> {alt.situation}
+                      </div>
+
+                      <p className="alert-explanation">{alt.sub}</p>
+
+                      <div className="alert-guidance-box">
+                        <div className="guidance-row">
+                          <span className="guidance-label">⚡ Immediate Action:</span>
+                          <span>{alt.action}</span>
+                        </div>
+                        <div className="guidance-row">
+                          <span className="guidance-label">🛡️ Plan B Solution:</span>
+                          <span>{alt.planB}</span>
+                        </div>
+                      </div>
+
+                      <button
+                        className={`btn-alert-planb ${alt.type}`}
+                        onClick={() => {
+                          triggerPlanB(alt.title + ': ' + alt.situation, alt.category, alt.planBFacility || 'AIIMS Nagpur');
+                          setAlertsOpen(false);
+                        }}
+                      >
+                        ⚡ {alt.actionBtn || 'Activate Plan B Solution'}
+                      </button>
                     </div>
                   ))}
                 </div>
-
-                <button
-                  onClick={() => {
-                    triggerSmartBedAlert('Wockhardt Hospital Nagpur');
-                    setAlertsOpen(false);
-                  }}
-                  style={{ width: '100%', marginTop: '16px', padding: '10px', borderRadius: '12px', background: 'var(--navy-dark)', color: 'white', fontWeight: 700, border: 'none', cursor: 'pointer', fontSize: '0.85rem' }}
-                >
-                  ⚡ Test Live Smart Bed Push Notification
-                </button>
               </div>
             </div>
           )}
